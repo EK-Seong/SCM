@@ -1,3 +1,6 @@
+install.packages("readxl")
+install.packages("tidyverse")
+
 library(readxl)
 library(tidyverse)
 
@@ -22,6 +25,7 @@ summary(twfe)
 
 beta <- twfe$coefficients
 
+# Unit root test for reports_per given region == 3(Daegu)
 daegu <- subset(d,subset = as.logical(Ddaegu))
 unit_root <- lm(reports_per[2:48]~reports_per[1:47]-1,daegu)
 summary(unit_root)
@@ -30,3 +34,5 @@ pnorm((0.99100-1)/0.01433,mean = 0,sd = 1)
 
 unit_root2 <- lm(log_reports_per[2:48]~log_reports_per[1:47]-1,daegu)
 summary(unit_root2)
+
+pnorm((unit_root2$coefficients[1]-1)/0.004042,mean = 0,sd = 1)
